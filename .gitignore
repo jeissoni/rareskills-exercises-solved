@@ -1,0 +1,24 @@
+# Compiler files
+cache/
+out/
+.DS_Store
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+/cache/
+**/lib/
+
+# Docs
+docs/
+
+# Dotenv file
+.env
+
+
+**/package.json
+**/package-lock.json
+
+**/.gitmodules
