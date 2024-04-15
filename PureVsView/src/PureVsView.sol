@@ -7,11 +7,17 @@ contract PureVsView {
 
     // this code does not compile. Change it so
     // that it compiles.
-    function getX() public pure returns (uint256) {
+    function getX() public view returns (uint256) {
         return x;
     }
 
-    function getY() public pure returns (uint256) {
+    function getY() public view returns (uint256) {
         return y;
     }
 }
+
+
+/*
+Function declared as pure, but this expression (potentially) 
+reads from the environment or state and thus requires "view".
+*/

@@ -18,6 +18,15 @@ contract ReducingPayout {
     }
 
     function withdraw() public {
-        // your code here
+        uint256 withdrawValue = 0;
+        uint256 timeDif = block.timestamp - depositedTime;
+		if (timeDif >= 86400){
+            withdrawValue = 0;
+        }			
+		else{
+            withdrawValue = 1 ether - ((timeDif * 0.0011574 ether) / 100);
+        }
+            
+        payable(msg.sender).transfer(withdrawValue);
     }
 }
