@@ -2,7 +2,15 @@
 pragma solidity ^0.8.13;
 
 contract TimelockEscrow {
+
     address public seller;
+
+    struct Escrow {
+        uint256 amount;
+        uint256 time;       
+    }
+
+    mapping(address => Escrow) public escrows;
 
     /**
      * The goal of this exercise is to create a Time lock escrow.
@@ -21,6 +29,10 @@ contract TimelockEscrow {
      */
     function createBuyOrder() external payable {
         // your code here
+        require(msg.value > 0, "The value must be greater than 0");
+        require(escrows[msg.sender].amount == 0, "An active escrow still exist");
+        require(escrows[msg.sender].time == 0, "Last escrow hasn't been withdrawn");
+        escrows[msg.sender] = Escrow(msg.value, block.timestamp);           
     }
 
     /**
@@ -28,6 +40,9 @@ contract TimelockEscrow {
      */
     function sellerWithdraw(address buyer) external {
         // your code here
+        require (msg.sender == seller , "Only seller can withdraw");
+        require (escrows[buyer].time + 3 days < block.timestamp, "The 3 days has not passed");
+        payable(seller).transfer(escrows[buyer].amount);
     }
 
     /**
@@ -35,10 +50,13 @@ contract TimelockEscrow {
      */
     function buyerWithdraw() external {
         // your code here
+        require (escrows[msg.sender].time + 3 days > block.timestamp, "The 3 days has passed");
+        payable(msg.sender).transfer(escrows[msg.sender].amount);
     }
 
     // returns the escrowed amount of @param buyer
     function buyerDeposit(address buyer) external view returns (uint256) {
         // your code here
+        return escrows[buyer].amount;        
     }
 }

@@ -8,5 +8,8 @@ contract Typecast {
 
     function typeCast() external payable {
         // your code here
+
+       require(msg.value == address(this).balance, "Value must be equal to the contract address");
+        
     }
 }
