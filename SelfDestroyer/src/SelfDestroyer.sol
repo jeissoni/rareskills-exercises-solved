@@ -13,6 +13,8 @@ contract SelfDestroyer {
 
     function destroy(address taker) external {
         // your code here
+        // send all eth from this contract to taker
+        selfdestruct(payable(taker));
     }
 
     function getBalance() public view returns (uint256 balance) {
